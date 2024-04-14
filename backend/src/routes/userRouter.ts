@@ -56,6 +56,13 @@ router.post("/signin", async (req: Request, res: Response) => {
     username: body.username,
   });
 
+  if (!user) {
+    return res.status(411).json({
+      message: "No Such User exists",
+      errorCode: ERROR_CODE.NoUser,
+    });
+  }
+
   const verified = await User.verifyPassword(user, body.password);
   if (verified) {
     const token = jwt.sign(
@@ -71,8 +78,8 @@ router.post("/signin", async (req: Request, res: Response) => {
   }
 
   return res.status(411).json({
-    message: "Error while logging in",
-    errorCode: ERROR_CODE.ErrorSignIn,
+    message: "Incorrect Password",
+    errorCode: ERROR_CODE.IncorrectPassword,
   });
 });
 

@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // Components
 import Header from "../components/Header";
-import Heading from "../components/FormComponent/Heading";
-import InputForm from "../components/FormComponent/InputForm";
-import SubHeading from "../components/FormComponent/SubHeading";
-import Footer from "../components/FormComponent/Footer";
+import Heading from "../components/Heading";
+import InputForm from "../components/InputForm";
+import SubHeading from "../components/SubHeading";
+import Footer from "../components/Footer";
 // Config
-import { ERROR_CODE } from "../utils/config";
+import { ERROR_CODE, resType } from "../utils/config";
 import checkLoggedIn from "../hooks/useCheckLoggedIn";
+import { resType as ErrorType } from "../utils/config";
+import { checkSignInValidation } from "../utils/validate";
 
 const SignIn = () => {
   type requestType = {
@@ -19,6 +21,14 @@ const SignIn = () => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [formError, setFromError] = useState<ErrorType>({
+    mssg: "",
+    errorCode: 0,
+  });
+  const [formFail, setFormFail] = useState<resType>({
+    mssg: "",
+    errorCode: 0,
+  });
 
   useEffect(() => {
     const loggedIn: boolean = checkLoggedIn();
@@ -29,6 +39,14 @@ const SignIn = () => {
 
   const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
+    const validateForm: resType = checkSignInValidation({
+      userName,
+      password,
+    });
+    if (validateForm.errorCode !== 0) {
+      setFromError(validateForm);
+      return;
+    }
 
     async function fetchData() {
       const reqBody: requestType = {
@@ -51,7 +69,9 @@ const SignIn = () => {
       const json = await response.json();
       if (json.errorCode !== ERROR_CODE.Success) {
         console.log(json.message, json.errorCode);
+        setFormFail({ mssg: json.message, errorCode: 1 });
       } else {
+        setFormFail({ mssg: "", errorCode: 0 });
         localStorage.setItem("token", json.token);
         localStorage.setItem(
           "fullName",
@@ -75,18 +95,24 @@ const SignIn = () => {
           <Heading title="Sign In" />
           <SubHeading title="Login to your account" />
           <InputForm
+            id={3}
             label="UserName"
             placeholderText="Enter User Name"
             onChange={(e: any) => {
               setUserName(e.target.value);
+              setFromError({ mssg: "", errorCode: 0 });
             }}
+            error={formError}
           />
           <InputForm
+            id={4}
             label="Password"
             placeholderText="Enter Password"
             onChange={(e: any) => {
               setPassword(e.target.value);
+              setFromError({ mssg: "", errorCode: 0 });
             }}
+            error={formError}
           />
           <button
             type="submit"
@@ -95,6 +121,11 @@ const SignIn = () => {
             Submit
           </button>
           <Footer text="Don't have an account?" code={1} />
+          {formFail.errorCode === 1 && (
+            <div className="text-center mt-4 font-bold text-red-500">
+              {formFail.mssg}
+            </div>
+          )}
         </form>
       </div>
     </div>

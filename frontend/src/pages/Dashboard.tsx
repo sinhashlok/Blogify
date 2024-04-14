@@ -4,6 +4,8 @@ import LoggedInHeader from "../components/LoggedInHeader";
 import checkLoggedIn from "../hooks/useCheckLoggedIn";
 import AddBlogModal from "../components/AddBlogModal";
 import BlogCard from "../components/BlogCard";
+import { useGetAllBlogsQuery } from "../utils/store/apiSlice";
+import ShimmerBlogCard from "../components/ShimmerBlogCard";
 
 const Dashboard = () => {
   type AllBlogs = {
@@ -18,24 +20,23 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [allBlogs, setAllBlogs] = useState<AllBlogs[]>([]);
+  const {
+    data: data,
+    isLoading,
+    isFetching,
+    isSuccess,
+    isError,
+    error,
+  } = useGetAllBlogsQuery("test");
+  if (isError) {
+    console.log(error);
+  }
 
   useEffect(() => {
     const loggedIn: boolean = checkLoggedIn();
     if (!loggedIn) {
       navigate("/signin");
     }
-
-    async function fetchData() {
-      const response = await fetch("http://localhost:8000/blogify/blog", {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      });
-      const json = await response.json();
-      setAllBlogs(json.blogs);
-    }
-
-    fetchData();
   }, []);
 
   const handleModalClick = () => {
@@ -46,7 +47,22 @@ const Dashboard = () => {
     navigate(`/dashboard/${id}`);
   };
 
-  return (
+  return !isSuccess ? (
+    <div>
+      <div>
+        <LoggedInHeader handleModalClick={handleModalClick} />
+        <AddBlogModal modalOpen={modalOpen} />
+      </div>
+      <div className="mx-8 lg:mx-24 font-poppins mt-32 lg:mt-0 flex flex-row flex-wrap gap-4">
+        <ShimmerBlogCard />
+        <ShimmerBlogCard />
+        <ShimmerBlogCard />
+        <ShimmerBlogCard />
+        <ShimmerBlogCard />
+        <ShimmerBlogCard />
+      </div>
+    </div>
+  ) : (
     <div>
       <div>
         <LoggedInHeader handleModalClick={handleModalClick} />
@@ -54,7 +70,7 @@ const Dashboard = () => {
       </div>
       <div className="mx-8 lg:mx-24 font-poppins mt-32 lg:mt-0">
         <div className="flex flex-row flex-wrap gap-4">
-          {allBlogs.map((blog: AllBlogs) => {
+          {data?.blogs.map((blog: AllBlogs) => {
             return (
               <BlogCard
                 key={blog._id}

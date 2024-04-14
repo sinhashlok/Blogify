@@ -4,6 +4,8 @@ import SignIn from "./pages/SignIn";
 import HomePage from "./pages/HomePage";
 import Dashboard from "./pages/Dashboard";
 import Blog from "./pages/Blog";
+import { Provider } from "react-redux";
+import appStore from "./utils/store/appStore";
 
 const App = () => {
   const appRouter = createBrowserRouter([
@@ -30,9 +32,9 @@ const App = () => {
   ]);
 
   return (
-    <div>
+    <Provider store={appStore}>
       <RouterProvider router={appRouter} />
-    </div>
+    </Provider>
   );
 };
 

@@ -47,10 +47,10 @@ const LoggedInHeader: React.FC<Prop> = ({ handleModalClick }) => {
         >
           +
         </div>
-        <div className="text-xl underline hidden md:flex">
+        <div className="text-xl underline hidden md:flex mr-4">
           {userDetails?.fullName}
         </div>
-        <div className="ml-4">
+        <div className="">
           <button
             className="border-2 border-black rounded-lg py-2 px-3 hover:text-white hover:bg-black"
             onClick={handleClick}

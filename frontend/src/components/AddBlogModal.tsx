@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import Modal from "react-modal";
-import Heading from "./FormComponent/Heading";
-import SubHeading from "./FormComponent/SubHeading";
-import InputForm from "./FormComponent/InputForm";
-import TextAreaForm from "./FormComponent/TextAreaForm";
-import { log } from "console";
+import Heading from "./Heading";
+import SubHeading from "./SubHeading";
+import InputForm from "./InputForm";
+import TextAreaForm from "./TextAreaForm";
+import { resType as ErrorType } from "../utils/config";
 
 const customStyles = {
   content: {
@@ -36,6 +36,10 @@ const AddBlogModal: React.FC<Prop> = ({ modalOpen }) => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [postImage, setPostImage] = useState<string | ArrayBuffer | null>(null);
+  const [formError, setFromError] = useState<ErrorType>({
+    mssg: "",
+    errorCode: 0,
+  });
 
   useEffect(() => {
     setIsOpen(!modalIsOpen);
@@ -100,7 +104,7 @@ const AddBlogModal: React.FC<Prop> = ({ modalOpen }) => {
       if (json.errorCode !== 0) {
         console.log("Please Enter Title / Description");
       } else {
-        alert("Blog Added!")
+        alert("Blog Added!");
       }
     }
     addBlog();
@@ -114,34 +118,36 @@ const AddBlogModal: React.FC<Prop> = ({ modalOpen }) => {
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
-        className="absolute bg-white top-32 left-[12%] md:left-[25%] w-[75%] md:w-[50%] rounded-xl outline-none border-4 border-black"
+        className="absolute bg-white top-8 md:top-32 left-[5%] md:left-[25%] w-[90%] md:w-[50%] rounded-xl outline-none border-4 border-black"
         contentLabel="Example Modal"
       >
-        <div className="flex flex-col font-poppins p-5">
+        <div className="flex flex-col font-poppins p-3 md:p-5">
           <button
             onClick={closeModal}
-            className="mb-4 ml-auto bg-black text-white text-2xl px-3 items-center rounded-full hover:bg-white border-2 border-black hover:text-black"
+            className="mb-2 ml-auto bg-black text-white text-lg md:text-2xl px-2 md:px-3 items-center rounded-full hover:bg-white border-2 border-black hover:text-black"
           >
             x
           </button>
           <form className="flex flex-col" onSubmit={handleClick}>
             <Heading title="Add Blog" />
             <SubHeading title="Create a new blog" />
-            <label className="form-label">Cover Image</label>
+            <label className="form-label text-sm md:text-lg">Cover Image</label>
             <input
               type="file"
-              className="form-control"
+              className="form-control text-sm md:text-lg mb-2"
               id="coverImage"
               name="coverImage"
               aria-describedby="coverImage"
               onChange={(e) => handleFileUpload(e)}
             />
             <InputForm
+              id={5}
               label="Title"
               placeholderText="Enter Title of your Blog"
               onChange={(e: any) => {
                 setTitle(e.target.value);
               }}
+              error={formError}
             />
             <TextAreaForm
               label="Description"
@@ -152,7 +158,7 @@ const AddBlogModal: React.FC<Prop> = ({ modalOpen }) => {
             />
             <button
               type="submit"
-              className="mt-6 w-full rounded-md text-lg text-white font-semibold bg-green-400 px-8 py-2"
+              className="mt-2 md:mt-6 w-full rounded-md text-lg text-white font-semibold bg-green-400 px-8 py-2"
             >
               Submit
             </button>

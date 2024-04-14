@@ -4,7 +4,7 @@ interface Prop {
 
 const Heading: React.FC<Prop> = ({title}) => {
   return (
-    <div className="text-4xl font-bold text-center">{title}</div>
+    <div className="text-2xl md:text-4xl font-bold text-center">{title}</div>
   )
 }
 

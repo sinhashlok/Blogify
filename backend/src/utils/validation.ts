@@ -19,8 +19,15 @@ const ADD_BLOG = z.object({
   coverImgURL: z.string(),
 });
 
+const GET_COMMENTS = z.object({
+  blogId: z.string(),
+  createdByName: z.string(),
+  description: z.string(),
+});
+
 module.exports = {
   SIGN_UP,
   SIGN_IN,
   ADD_BLOG,
+  GET_COMMENTS,
 };

@@ -14,7 +14,7 @@ const TextAreaForm: React.FC<Prop> = ({
       <div className="text-sm mb-1">{label}</div>
       <textarea
         onChange={onChange}
-        className="w-full p-2 h-[240px] resize-none rounded-md border-2 border-gray-300 placeholder:text-sm outline-red-400"
+        className="w-full p-2 h-[200px] md:h-[240px] resize-none rounded-md border-2 border-gray-300 placeholder:text-sm outline-red-400"
         placeholder={placeholderText}
       />
     </div>
