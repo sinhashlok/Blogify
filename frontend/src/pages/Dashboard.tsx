@@ -68,7 +68,7 @@ const Dashboard = () => {
         <LoggedInHeader handleModalClick={handleModalClick} />
         <AddBlogModal modalOpen={modalOpen} />
       </div>
-      <div className="mx-8 lg:mx-24 font-poppins mt-32 lg:mt-0">
+      <div className="mx-8 lg:mx-24 font-poppins mt-12 md:mt-32 lg:mt-0">
         <div className="flex flex-row flex-wrap gap-4">
           {data?.blogs.map((blog: AllBlogs) => {
             return (
