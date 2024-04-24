@@ -25,6 +25,7 @@ const SignUp = () => {
   const [lastName, setLastName] = useState("");
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(true);
   const [formError, setFromError] = useState<ErrorType>({
     mssg: "",
     errorCode: 0,
@@ -40,6 +41,10 @@ const SignUp = () => {
       navigate("/dashboard");
     }
   }, []);
+
+  const handleClick = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
@@ -99,41 +104,50 @@ const SignUp = () => {
           <SubHeading title="Create a new account" />
           <InputForm
             id={1}
+            type="text"
             label="First Name"
             placeholderText="Enter First Name"
             onChange={(e: any) => {
               setFirstName(e.target.value);
             }}
+            onClick={() => {}}
             error={formError}
           />
           <InputForm
             id={2}
+            type="text"
             label="Last Name"
             placeholderText="Enter Last Name"
             onChange={(e: any) => {
               setLastName(e.target.value);
               setFromError({ mssg: "", errorCode: 0 });
             }}
+            onClick={() => {}}
             error={formError}
           />
           <InputForm
             id={3}
             label="UserName"
+            type="text"
             placeholderText="Enter User Name"
             onChange={(e: any) => {
               setUserName(e.target.value);
               setFromError({ mssg: "", errorCode: 0 });
             }}
+            onClick={() => {}}
             error={formError}
           />
           <InputForm
             id={4}
             label="Password"
+            type={showPassword ? "password" : "text"}
             placeholderText="Enter Password"
             onChange={(e: any) => {
               setPassword(e.target.value);
               setFromError({ mssg: "", errorCode: 0 });
             }}
+            onClick={handleClick}
+            isPasswordField={showPassword}
             error={formError}
           />
           <button

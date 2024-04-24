@@ -142,11 +142,13 @@ const AddBlogModal: React.FC<Prop> = ({ modalOpen }) => {
             />
             <InputForm
               id={5}
+              type="text"
               label="Title"
               placeholderText="Enter Title of your Blog"
               onChange={(e: any) => {
                 setTitle(e.target.value);
               }}
+              onClick={() => {}}
               error={formError}
             />
             <TextAreaForm

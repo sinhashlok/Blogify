@@ -21,6 +21,7 @@ const SignIn = () => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(true);
   const [formError, setFromError] = useState<ErrorType>({
     mssg: "",
     errorCode: 0,
@@ -36,6 +37,10 @@ const SignIn = () => {
       navigate("/dashboard");
     }
   }, []);
+
+  const handleClick = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
@@ -96,22 +101,27 @@ const SignIn = () => {
           <SubHeading title="Login to your account" />
           <InputForm
             id={3}
+            type="text"
             label="UserName"
             placeholderText="Enter User Name"
             onChange={(e: any) => {
               setUserName(e.target.value);
               setFromError({ mssg: "", errorCode: 0 });
             }}
+            onClick={() => {}}
             error={formError}
           />
           <InputForm
             id={4}
+            type={showPassword ? "password" : "text"}
             label="Password"
             placeholderText="Enter Password"
             onChange={(e: any) => {
               setPassword(e.target.value);
               setFromError({ mssg: "", errorCode: 0 });
             }}
+            onClick={handleClick}
+            isPasswordField={showPassword}
             error={formError}
           />
           <button
