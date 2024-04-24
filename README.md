@@ -17,21 +17,15 @@ Blogify is Blogging website, where users can share there blogs, add comments.
 ### How to run?
 - Clone the repo
 - Backed: </br>
-`
+```
 cd backend
-`
-</br>
-`
 npm start
-`
+```
 - Frontend:</br>
-`
+```
 cd frontend
-`
-</br>
-`
 npm start
-`
+```
 - env: Add mongodb client url to .env
 
 ### Tools
