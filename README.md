@@ -26,7 +26,11 @@ npm start
 cd frontend
 npm start
 ```
-- env: Add mongodb client url to .env
+- env <br />
+Create a .env file inside backend at same level as package.json<br/>
+Create MONGODB_URL and add your monogodb connection string.<br/>
+A collection by name blogify will be created
+
 
 ### Tools
 - React
