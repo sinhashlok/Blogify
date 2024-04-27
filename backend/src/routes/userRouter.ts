@@ -9,6 +9,7 @@ const { SIGN_UP, SIGN_IN } = require("../utils/validation");
 router.post("/signup", async (req: Request, res: Response) => {
   const body = req.body;
   const { success } = SIGN_UP.safeParse(body);
+  
 
   if (!success) {
     return res.status(411).json({

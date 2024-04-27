@@ -2,12 +2,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const rootRouter = require("./routes/rootRouter");
+require('dotenv').config();
 
 const app = express();
 
 mongoose
   .connect(
-    "mongodb+srv://shlokjp:wZeJJXewix5HC6B3@cohort0.5ncvfcm.mongodb.net/",
+    process.env.MONGODB_URL,
     {
       dbName: "blogify",
     }

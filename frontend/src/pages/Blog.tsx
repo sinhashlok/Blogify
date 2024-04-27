@@ -34,6 +34,8 @@ const Blog = () => {
 
     fetchData();
   }, []);
+  console.log(blog);
+  
 
   const handleModalClick = () => {
     setModalOpen(!modalOpen);
